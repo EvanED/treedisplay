@@ -240,7 +240,6 @@ class GraphWidget(QtGui.QGraphicsView):
              ])
 
         nodes = [Node(self) for counter in range(9)]
-        self.centerNode = nodes[5]
 
         for node in nodes:
             scene.addItem(node)
