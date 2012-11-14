@@ -259,66 +259,8 @@ class GraphWidget(QtGui.QGraphicsView):
         self.setMinimumSize(400, 400)
         self.setWindowTitle("Elastic Nodes")
 
-    def keyPressEvent(self, event):
-        key = event.key()
-
-        if key == QtCore.Qt.Key_Up:
-            self.centerNode.moveBy(0, -20)
-        elif key == QtCore.Qt.Key_Down:
-            self.centerNode.moveBy(0, 20)
-        elif key == QtCore.Qt.Key_Left:
-            self.centerNode.moveBy(-20, 0)
-        elif key == QtCore.Qt.Key_Right:
-            self.centerNode.moveBy(20, 0)
-        elif key == QtCore.Qt.Key_Plus:
-            self.scaleView(1.2)
-        elif key == QtCore.Qt.Key_Minus:
-            self.scaleView(1 / 1.2)
-        elif key == QtCore.Qt.Key_Space or key == QtCore.Qt.Key_Enter:
-            for item in self.scene().items():
-                if isinstance(item, Node):
-                    item.setPos(-150 + QtCore.qrand() % 300, -150 + QtCore.qrand() % 300)
-        else:
-            super(GraphWidget, self).keyPressEvent(event)
-
     def wheelEvent(self, event):
         self.scaleView(math.pow(2.0, -event.delta() / 240.0))
-
-    def drawBackground(self, painter, rect):
-        # Shadow.
-        sceneRect = self.sceneRect()
-        rightShadow = QtCore.QRectF(sceneRect.right(), sceneRect.top() + 5, 5,
-                sceneRect.height())
-        bottomShadow = QtCore.QRectF(sceneRect.left() + 5, sceneRect.bottom(),
-                sceneRect.width(), 5)
-        if rightShadow.intersects(rect) or rightShadow.contains(rect):
-	        painter.fillRect(rightShadow, QtCore.Qt.darkGray)
-        if bottomShadow.intersects(rect) or bottomShadow.contains(rect):
-	        painter.fillRect(bottomShadow, QtCore.Qt.darkGray)
-
-        # Fill.
-        gradient = QtGui.QLinearGradient(sceneRect.topLeft(),
-                sceneRect.bottomRight())
-        gradient.setColorAt(0, QtCore.Qt.white)
-        gradient.setColorAt(1, QtCore.Qt.lightGray)
-        painter.fillRect(rect.intersect(sceneRect), QtGui.QBrush(gradient))
-        painter.setBrush(QtCore.Qt.NoBrush)
-        painter.drawRect(sceneRect)
-
-        # Text.
-        textRect = QtCore.QRectF(sceneRect.left() + 4, sceneRect.top() + 4,
-                sceneRect.width() - 4, sceneRect.height() - 4)
-        message = "Click and drag the nodes around, and zoom with the " \
-                "mouse wheel or the '+' and '-' keys"
-
-        font = painter.font()
-        font.setBold(True)
-        font.setPointSize(14)
-        painter.setFont(font)
-        painter.setPen(QtCore.Qt.lightGray)
-        painter.drawText(textRect.translated(2, 2), message)
-        painter.setPen(QtCore.Qt.black)
-        painter.drawText(textRect, message)
 
     def scaleView(self, scaleFactor):
         factor = self.matrix().scale(scaleFactor, scaleFactor).mapRect(QtCore.QRectF(0, 0, 1, 1)).width()
