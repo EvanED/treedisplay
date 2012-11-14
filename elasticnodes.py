@@ -236,21 +236,20 @@ class GraphWidget(QtGui.QGraphicsView):
              (5, 8),
              (6, 3),
              (7, 6),
-             (8,7)
+             (8, 7)
              ])
 
-        nodes = [Node(self) for counter in range(9)]
+        nodes = { nodekey: (Node(self), pos)
+                  for (nodekey, pos) in graph[0].items() }
 
-        for node in nodes:
+        for (node, pos) in nodes.values():
             scene.addItem(node)
+            (x, y) = pos
+            node.setPos(x, y)
 
         for edge in graph[1]:
             (source, target) = edge
-            scene.addItem(Edge(nodes[source], nodes[target]))
-
-        for i in range(9):
-            (x, y) = graph[0][i]
-            nodes[i].setPos(x, y)
+            scene.addItem(Edge(nodes[source][0], nodes[target][0]))
 
         self.scale(0.8, 0.8)
         self.setMinimumSize(400, 400)
