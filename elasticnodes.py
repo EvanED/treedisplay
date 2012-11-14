@@ -201,7 +201,7 @@ class Node(QtGui.QGraphicsItem):
 
 
 class GraphWidget(QtGui.QGraphicsView):
-    def __init__(self):
+    def __init__(self, graph):
         super(GraphWidget, self).__init__()
 
         scene = QtGui.QGraphicsScene(self)
@@ -213,31 +213,6 @@ class GraphWidget(QtGui.QGraphicsView):
         self.setRenderHint(QtGui.QPainter.Antialiasing)
         self.setTransformationAnchor(QtGui.QGraphicsView.AnchorUnderMouse)
         self.setResizeAnchor(QtGui.QGraphicsView.AnchorViewCenter)
-
-        graph = (
-            {100: (-50, -50),
-             1: (  0, -50),
-             2: ( 50, -50),
-             3: (-50,   0),
-             4: (  0,   0),
-             5: ( 50,   0),
-             6: (-50,  50),
-             7: (  0,  50),
-             8: ( 50,  50)
-             },
-            [(100, 1),
-             (1, 2),
-             (1, 4),
-             (2, 5),
-             (3, 100),
-             (3, 4),
-             (4, 5),
-             (4, 7),
-             (5, 8),
-             (6, 3),
-             (7, 6),
-             (8, 7)
-             ])
 
         nodes = { nodekey: (Node(self), pos)
                   for (nodekey, pos) in graph[0].items() }
@@ -274,7 +249,25 @@ if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
     QtCore.qsrand(QtCore.QTime(0,0,0).secsTo(QtCore.QTime.currentTime()))
 
-    widget = GraphWidget()
+    graph = (
+        {100: (-50, -50),
+         1: (  0, -50),
+         2: ( 50, -50),
+         3: (-50,   0),
+         4: (  0,   0),
+         5: ( 50,   0),
+         6: (-50,  50),
+         7: (  0,  50),
+         8: ( 50,  50)
+         },
+        [(100, 1), (1, 2), (1, 4), (2, 5), (3, 100),
+         (3, 4), (4, 5), (4, 7), (5, 8), (6, 3),
+         (7, 6), (8, 7)
+         ])
+
+
+
+    widget = GraphWidget(graph)
     widget.show()
 
     sys.exit(app.exec_())
