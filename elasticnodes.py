@@ -224,7 +224,20 @@ class GraphWidget(QtGui.QGraphicsView):
              6: (-50,  50),
              7: (  0,  50),
              8: ( 50,  50)
-             },)
+             },
+            [(0, 1),
+             (1, 2),
+             (1, 4),
+             (2, 5),
+             (3, 0),
+             (3, 4),
+             (4, 5),
+             (4, 7),
+             (5, 8),
+             (6, 3),
+             (7, 6),
+             (8,7)
+             ])
 
         nodes = [Node(self) for counter in range(9)]
         self.centerNode = nodes[5]
@@ -232,18 +245,9 @@ class GraphWidget(QtGui.QGraphicsView):
         for node in nodes:
             scene.addItem(node)
 
-        scene.addItem(Edge(nodes[0], nodes[1]))
-        scene.addItem(Edge(nodes[1], nodes[2]))
-        scene.addItem(Edge(nodes[1], nodes[4]))
-        scene.addItem(Edge(nodes[2], nodes[5]))
-        scene.addItem(Edge(nodes[3], nodes[0]))
-        scene.addItem(Edge(nodes[3], nodes[4]))
-        scene.addItem(Edge(nodes[4], nodes[5]))
-        scene.addItem(Edge(nodes[4], nodes[7]))
-        scene.addItem(Edge(nodes[5], nodes[8]))
-        scene.addItem(Edge(nodes[6], nodes[3]))
-        scene.addItem(Edge(nodes[7], nodes[6]))
-        scene.addItem(Edge(nodes[8], nodes[7]))
+        for edge in graph[1]:
+            (source, target) = edge
+            scene.addItem(Edge(nodes[source], nodes[target]))
 
         for i in range(9):
             (x, y) = graph[0][i]
