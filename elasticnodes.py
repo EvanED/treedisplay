@@ -215,7 +215,7 @@ class GraphWidget(QtGui.QGraphicsView):
         self.setResizeAnchor(QtGui.QGraphicsView.AnchorViewCenter)
 
         graph = (
-            {0: (-50, -50),
+            {100: (-50, -50),
              1: (  0, -50),
              2: ( 50, -50),
              3: (-50,   0),
@@ -225,11 +225,11 @@ class GraphWidget(QtGui.QGraphicsView):
              7: (  0,  50),
              8: ( 50,  50)
              },
-            [(0, 1),
+            [(100, 1),
              (1, 2),
              (1, 4),
              (2, 5),
-             (3, 0),
+             (3, 100),
              (3, 4),
              (4, 5),
              (4, 7),
