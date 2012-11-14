@@ -214,6 +214,18 @@ class GraphWidget(QtGui.QGraphicsView):
         self.setTransformationAnchor(QtGui.QGraphicsView.AnchorUnderMouse)
         self.setResizeAnchor(QtGui.QGraphicsView.AnchorViewCenter)
 
+        graph = (
+            {0: (-50, -50),
+             1: (  0, -50),
+             2: ( 50, -50),
+             3: (-50,   0),
+             4: (  0,   0),
+             5: ( 50,   0),
+             6: (-50,  50),
+             7: (  0,  50),
+             8: ( 50,  50)
+             },)
+
         nodes = [Node(self) for counter in range(9)]
         self.centerNode = nodes[5]
 
@@ -233,15 +245,9 @@ class GraphWidget(QtGui.QGraphicsView):
         scene.addItem(Edge(nodes[7], nodes[6]))
         scene.addItem(Edge(nodes[8], nodes[7]))
 
-        nodes[0].setPos(-50, -50)
-        nodes[1].setPos(0, -50)
-        nodes[2].setPos(50, -50)
-        nodes[3].setPos(-50, 0)
-        nodes[4].setPos(0, 0)
-        nodes[5].setPos(50, 0)
-        nodes[6].setPos(-50, 50)
-        nodes[7].setPos(0, 50)
-        nodes[8].setPos(50, 50)
+        for i in range(9):
+            (x, y) = graph[0][i]
+            nodes[i].setPos(x, y)
 
         self.scale(0.8, 0.8)
         self.setMinimumSize(400, 400)
