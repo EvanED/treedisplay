@@ -234,7 +234,6 @@ class Node(QtGui.QGraphicsItem):
         if change == QtGui.QGraphicsItem.ItemPositionHasChanged:
             for edge in self.edgeList:
                 edge.adjust()
-            self.graph.itemMoved()
 
         return super(Node, self).itemChange(change, value)
 
@@ -250,8 +249,6 @@ class Node(QtGui.QGraphicsItem):
 class GraphWidget(QtGui.QGraphicsView):
     def __init__(self):
         super(GraphWidget, self).__init__()
-
-        self.timerId = 0
 
         scene = QtGui.QGraphicsScene(self)
         scene.setItemIndexMethod(QtGui.QGraphicsScene.NoIndex)
@@ -308,10 +305,6 @@ class GraphWidget(QtGui.QGraphicsView):
         self.setMinimumSize(400, 400)
         self.setWindowTitle("Elastic Nodes")
 
-    def itemMoved(self):
-        if not self.timerId:
-            self.timerId = self.startTimer(1000 / 25)
-
     def keyPressEvent(self, event):
         key = event.key()
 
@@ -333,21 +326,6 @@ class GraphWidget(QtGui.QGraphicsView):
                     item.setPos(-150 + QtCore.qrand() % 300, -150 + QtCore.qrand() % 300)
         else:
             super(GraphWidget, self).keyPressEvent(event)
-
-    def timerEvent(self, event):
-        nodes = [item for item in self.scene().items() if isinstance(item, Node)]
-
-        for node in nodes:
-            node.calculateForces()
-
-        itemsMoved = False
-        for node in nodes:
-            if node.advance():
-                itemsMoved = True
-
-        if not itemsMoved:
-            self.killTimer(self.timerId)
-            self.timerId = 0
 
     def wheelEvent(self, event):
         self.scaleView(math.pow(2.0, -event.delta() / 240.0))
