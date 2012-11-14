@@ -3,11 +3,17 @@
 
 #############################################################################
 ##
+## Copyright (C) 2012 Evan Driscoll
+##
+## Modified from the elasticnodes.py provided in the PyQt4 examples.
+##
+##
+## Original license (still enforce with the above copyright notice as
+## well):
+##
 ## Copyright (C) 2010 Riverbank Computing Limited.
 ## Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies).
 ## All rights reserved.
-##
-## This file is part of the examples of PyQt.
 ##
 ## $QT_BEGIN_LICENSE:BSD$
 ## You may use this file under the terms of the BSD license as follows:
