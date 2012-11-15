@@ -91,8 +91,30 @@ class Edge(QtGui.QGraphicsItem):
         if not self.source or not self.dest:
             return
 
-        line = QtCore.QLineF(self.mapFromItem(self.source, 0, 0),
-                             self.mapFromItem(self.dest, 0, 0))
+        source_rect = self.mapFromItem(self.source, self.source.boundingRect()).boundingRect()
+        dest_rect = self.mapFromItem(self.dest, self.dest.boundingRect()).boundingRect()
+
+        # if source | dest then want to use right part of source and
+        # left of dest, vice versa, and similarly for top, bottom.
+        # "left" refers to the source end of the line, "right" refers
+        # to the target end of the line.
+        if source_rect.right() < dest_rect.left():
+            left_x = source_rect.right()
+            right_x = dest_rect.left()
+        else:
+            left_x = source_rect.left()
+            right_x = dest_rect.right()
+
+        if source_rect.bottom() < dest_rect.top():
+            left_y = source_rect.bottom()
+            right_y = dest_rect.top()
+        else:
+            left_y = source_rect.top()
+            right_y = dest_rect.bottom()
+        
+        
+        line = QtCore.QLineF(left_x, left_y,
+                             right_x, right_y)
         length = line.length()
 
         self.prepareGeometryChange()
