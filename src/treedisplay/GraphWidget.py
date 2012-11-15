@@ -139,16 +139,8 @@ class Node(QtGui.QGraphicsSimpleTextItem):
 
         self.graph = graphWidget
 
-        self.setFlag(QtGui.QGraphicsItem.ItemSendsGeometryChanges)
         self.setCacheMode(QtGui.QGraphicsItem.DeviceCoordinateCache)
         self.setZValue(1)
-
-    def itemChange(self, change, value):
-        if change == QtGui.QGraphicsItem.ItemPositionHasChanged:
-            for edge in self.edgeList:
-                edge.adjust()
-
-        return super(Node, self).itemChange(change, value)
 
 
 class GraphWidget(QtGui.QGraphicsView):
