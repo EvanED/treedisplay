@@ -134,8 +134,8 @@ class Edge(QtGui.QGraphicsItem):
 
 
 class Node(QtGui.QGraphicsSimpleTextItem):
-    def __init__(self, graphWidget):
-        super(Node, self).__init__("foo")
+    def __init__(self, graphWidget, text):
+        super(Node, self).__init__(text)
 
         self.graph = graphWidget
 
@@ -165,8 +165,8 @@ class GraphWidget(QtGui.QGraphicsView):
         self.setTransformationAnchor(QtGui.QGraphicsView.AnchorUnderMouse)
         self.setResizeAnchor(QtGui.QGraphicsView.AnchorViewCenter)
 
-        nodes = { nodekey: (Node(self), pos)
-                  for (nodekey, pos) in graph[0].items() }
+        nodes = { nodekey: (Node(self, nodespec["text"]), nodespec)
+                  for (nodekey, nodespec) in graph[0].items() }
 
         for (node, spec) in nodes.values():
             scene.addItem(node)
