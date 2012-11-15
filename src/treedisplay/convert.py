@@ -6,7 +6,7 @@ def convert_DrawTree_to_graph(tree, scale):
     def _helper_tree(node):
         node_specs[id(node)] = {
             "position": (node.x * scale, node.y * scale),
-            "text": "bar"
+            "text": node.tree.text
             }
         for child in node.children:
             edge_list.append((id(node), id(child)))
