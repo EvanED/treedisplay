@@ -143,7 +143,6 @@ class Node(QtGui.QGraphicsSimpleTextItem):
         self.edgeList = []
         self.newPos = QtCore.QPointF()
 
-        self.setFlag(QtGui.QGraphicsItem.ItemIsMovable)
         self.setFlag(QtGui.QGraphicsItem.ItemSendsGeometryChanges)
         self.setCacheMode(QtGui.QGraphicsItem.DeviceCoordinateCache)
         self.setZValue(1)
@@ -161,14 +160,6 @@ class Node(QtGui.QGraphicsSimpleTextItem):
                 edge.adjust()
 
         return super(Node, self).itemChange(change, value)
-
-    def mousePressEvent(self, event):
-        self.update()
-        super(Node, self).mousePressEvent(event)
-
-    def mouseReleaseEvent(self, event):
-        self.update()
-        super(Node, self).mouseReleaseEvent(event)
 
 
 class GraphWidget(QtGui.QGraphicsView):
