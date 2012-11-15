@@ -135,11 +135,9 @@ class Edge(QtGui.QGraphicsItem):
         painter.drawLine(line)
 
 
-class Node(QtGui.QGraphicsItem):
-    Type = QtGui.QGraphicsItem.UserType + 1
-
+class Node(QtGui.QGraphicsSimpleTextItem):
     def __init__(self, graphWidget):
-        super(Node, self).__init__()
+        super(Node, self).__init__("foo")
 
         self.graph = graphWidget
         self.edgeList = []
@@ -150,44 +148,12 @@ class Node(QtGui.QGraphicsItem):
         self.setCacheMode(QtGui.QGraphicsItem.DeviceCoordinateCache)
         self.setZValue(1)
 
-    def type(self):
-        return Node.Type
-
     def addEdge(self, edge):
         self.edgeList.append(edge)
         edge.adjust()
 
     def edges(self):
         return self.edgeList
-
-    def boundingRect(self):
-        adjust = 2.0
-        return QtCore.QRectF(-10 - adjust, -10 - adjust, 23 + adjust,
-                23 + adjust)
-
-    def shape(self):
-        path = QtGui.QPainterPath()
-        path.addEllipse(-10, -10, 20, 20)
-        return path
-
-    def paint(self, painter, option, widget):
-        painter.setPen(QtCore.Qt.NoPen)
-        painter.setBrush(QtCore.Qt.darkGray)
-        painter.drawEllipse(-7, -7, 20, 20)
-
-        gradient = QtGui.QRadialGradient(-3, -3, 10)
-        if option.state & QtGui.QStyle.State_Sunken:
-            gradient.setCenter(3, 3)
-            gradient.setFocalPoint(3, 3)
-            gradient.setColorAt(1, QtGui.QColor(QtCore.Qt.yellow).light(120))
-            gradient.setColorAt(0, QtGui.QColor(QtCore.Qt.darkYellow).light(120))
-        else:
-            gradient.setColorAt(0, QtCore.Qt.yellow)
-            gradient.setColorAt(1, QtCore.Qt.darkYellow)
-
-        painter.setBrush(QtGui.QBrush(gradient))
-        painter.setPen(QtGui.QPen(QtCore.Qt.black, 0))
-        painter.drawEllipse(-10, -10, 20, 20)
 
     def itemChange(self, change, value):
         if change == QtGui.QGraphicsItem.ItemPositionHasChanged:
