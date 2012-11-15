@@ -68,8 +68,6 @@ class Edge(QtGui.QGraphicsItem):
         self.setAcceptedMouseButtons(QtCore.Qt.NoButton)
         self.source = sourceNode
         self.dest = destNode
-        self.source.addEdge(self)
-        self.dest.addEdge(self)
         self.adjust()
 
     def type(self):
@@ -140,19 +138,10 @@ class Node(QtGui.QGraphicsSimpleTextItem):
         super(Node, self).__init__("foo")
 
         self.graph = graphWidget
-        self.edgeList = []
-        self.newPos = QtCore.QPointF()
 
         self.setFlag(QtGui.QGraphicsItem.ItemSendsGeometryChanges)
         self.setCacheMode(QtGui.QGraphicsItem.DeviceCoordinateCache)
         self.setZValue(1)
-
-    def addEdge(self, edge):
-        self.edgeList.append(edge)
-        edge.adjust()
-
-    def edges(self):
-        return self.edgeList
 
     def itemChange(self, change, value):
         if change == QtGui.QGraphicsItem.ItemPositionHasChanged:
