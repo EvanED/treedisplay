@@ -26,13 +26,6 @@ class Tree:
 
     def __len__(self): return len(self.children)
 
-def gentree(path):
-    root = Tree(os.path.basename(path))
-    if os.path.isdir(path):
-        for f in os.listdir(path):
-            root.children.append(gentree(os.path.join(path, f)))
-    return root
-
 the_tree = Tree("root", 
   Tree("l1", 
     Tree("l2", 
