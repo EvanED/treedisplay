@@ -168,9 +168,9 @@ class GraphWidget(QtGui.QGraphicsView):
         nodes = { nodekey: (Node(self), pos)
                   for (nodekey, pos) in graph[0].items() }
 
-        for (node, pos) in nodes.values():
+        for (node, spec) in nodes.values():
             scene.addItem(node)
-            (x, y) = pos
+            (x, y) = spec["position"]
             node.setPos(x, y)
 
         for edge in graph[1]:
