@@ -28,7 +28,7 @@ class Tree:
 
 the_tree = Tree("root", 
   Tree("l1", 
-    Tree("l2", 
+    Tree("this is a long node name", 
       Tree("l3", 
         Tree("l4", 
           Tree("l5"),
