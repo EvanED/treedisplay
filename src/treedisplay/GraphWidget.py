@@ -92,7 +92,7 @@ class Edge(QtGui.QGraphicsItem):
             return
 
         line = QtCore.QLineF(self.mapFromItem(self.source, 0, 0),
-                self.mapFromItem(self.dest, 0, 0))
+                             self.mapFromItem(self.dest, 0, 0))
         length = line.length()
 
         self.prepareGeometryChange()
