@@ -1,5 +1,53 @@
 #!/usr/bin/env python
 
+import convert
+import treelayout
+
+class Tree:
+    def __init__(self, node="", *children):
+        self.node = node
+        self.width = len(node)
+        if children: self.children = children
+        else:        self.children = []
+    
+    def __str__(self): 
+        return "%s" % (self.node)
+    def __repr__(self):
+        return "%s" % (self.node)
+
+    def __getitem__(self, key):
+        if isinstance(key, int) or isinstance(key, slice): 
+            return self.children[key]
+        if isinstance(key, str):
+            for child in self.children:
+                if child.node == key: return child
+
+    def __iter__(self): return self.children.__iter__()
+
+    def __len__(self): return len(self.children)
+
+def gentree(path):
+    root = Tree(os.path.basename(path))
+    if os.path.isdir(path):
+        for f in os.listdir(path):
+            root.children.append(gentree(os.path.join(path, f)))
+    return root
+
+the_tree = Tree("root", 
+  Tree("l1", 
+    Tree("l2", 
+      Tree("l3", 
+        Tree("l4", 
+          Tree("l5"),
+          Tree("l6")),
+        Tree("l7")),
+      Tree("l8")),
+    Tree("l9")),
+  Tree("r1", 
+    Tree("r2", 
+      Tree("r3"),
+      Tree("r4")),
+    Tree("r5")))
 
 #############################################################################
 ##
@@ -212,7 +260,7 @@ class GraphWidget(QtGui.QGraphicsView):
 
         scene = QtGui.QGraphicsScene(self)
         scene.setItemIndexMethod(QtGui.QGraphicsScene.NoIndex)
-        scene.setSceneRect(-200, -200, 400, 400)
+        scene.setSceneRect(0, 0, 400, 400)
         self.setScene(scene)
         self.setCacheMode(QtGui.QGraphicsView.CacheBackground)
         self.setViewportUpdateMode(QtGui.QGraphicsView.BoundingRectViewportUpdate)
@@ -255,23 +303,9 @@ if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
     QtCore.qsrand(QtCore.QTime(0,0,0).secsTo(QtCore.QTime.currentTime()))
 
-    graph = (
-        {100: (-50, -50),
-         1: (  0, -50),
-         2: ( 50, -50),
-         3: (-50,   0),
-         4: (  0,   0),
-         5: ( 50,   0),
-         6: (-50,  50),
-         7: (  0,  50),
-         8: ( 50,  50)
-         },
-        [(100, 1), (1, 2), (1, 4), (2, 5), (3, 100),
-         (3, 4), (4, 5), (4, 7), (5, 8), (6, 3),
-         (7, 6), (8, 7)
-         ])
-
-
+    the_tree = treelayout.layout(the_tree)
+    graph = convert.convert_DrawTree_to_graph(the_tree, 50)
+    print(graph)
 
     widget = GraphWidget(graph)
     widget.show()
